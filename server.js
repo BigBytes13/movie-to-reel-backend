@@ -6,9 +6,13 @@ const ffmpeg = require('fluent-ffmpeg');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
+const cors = require('cors'); // Add CORS for API requests
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// Enable CORS
+app.use(cors());
 
 app.use(session({
     secret: 'your-secret-key',
@@ -19,11 +23,20 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// Create /tmp directories for uploads and segments
+if (!fs.existsSync('/tmp/uploads/')) {
+    fs.mkdirSync('/tmp/uploads/', { recursive: true });
+}
+
+if (!fs.existsSync('/tmp/segments/')) {
+    fs.mkdirSync('/tmp/segments/', { recursive: true });
+}
+
 // Multer File Upload Configuration
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, 'uploads/');
+            cb(null, '/tmp/uploads/');
         },
         filename: (req, file, cb) => {
             cb(null, uuidv4() + path.extname(file.originalname));
@@ -48,7 +61,7 @@ app.post('/upload', upload.single('video'), (req, res) => {
 
     let segmentDuration = parseInt(req.body.segmentDuration, 10);
     let storageOption = req.body.storageOption;
-    let storageLocation = storageOption === "custom" ? req.body.storageLocation : 'segments/';
+    let storageLocation = storageOption === "custom" ? req.body.storageLocation : '/tmp/segments/';
 
     // Ensure storage directory exists
     if (!fs.existsSync(storageLocation)) {
@@ -86,7 +99,7 @@ app.post('/upload', upload.single('video'), (req, res) => {
         Promise.all(segmentPromises)
             .then(() => {
                 fs.unlink(filePath, () => console.log("Original file deleted."));
-                res.redirect('/thank-you');
+                res.redirect(`${req.protocol}://${req.get('host')}/thank-you`);
             })
             .catch(err => res.status(500).send("Segmentation failed: " + err.message));
     });
