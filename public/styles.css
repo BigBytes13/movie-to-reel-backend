@@ -1,0 +1,85 @@
+/* Reset and Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #3498db, #8e44ad);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* Main Container */
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px; /* Reduced padding */
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Headers */
+h1 {
+    color: #ecf0f1;
+    margin-bottom: 5px; /* Reduced spacing */
+    font-size: 24px; /* Slightly smaller for better balance */
+}
+
+/* Labels and Inputs */
+label {
+    display: block;
+    font-weight: bold;
+    margin: 8px 0 3px; /* Reduced spacing */
+    text-align: left;
+    font-size: 14px; /* Slightly smaller for better aesthetics */
+}
+
+input, button, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 3px; /* Reduced margin */
+    border-radius: 5px;
+    border: none;
+}
+
+/* Buttons */
+button {
+    background-color: #2ecc71;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px; /* Reduced extra space */
+}
+
+button:hover {
+    background-color: #27ae60;
+}
+
+/* Footer - Always at Bottom */
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+footer a {
+    color: #3498db;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

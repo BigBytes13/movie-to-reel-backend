@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Upload Video</title>
+        <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE">
+        <meta name="google-adsense-account" content="ca-pub-1613208123230550">
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    
+    
+<body>
+    <div class="container">
+        <h1>Upload Your Video</h1>
+
+        <!-- Google AdSense Ad -->
+        <div class="ad-container">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                 data-ad-slot="yyyyyyyyyyyy"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="video">Select Video (MP4, MKV, AVI, WEBM):</label>
+            <input type="file" name="video" accept=".mp4, .mkv, .avi, .webm" required>
+
+            <label for="segmentDuration">Segment Duration (seconds):</label>
+            <input type="number" name="segmentDuration" value="30" min="1" required>
+
+            <label for="storageOption">Choose Storage Location:</label>
+            <select id="storageOption" name="storageOption" onchange="toggleCustomPath()">
+                <option value="segments">Default Location (segments/)</option>
+                <option value="custom">Choose Folder...</option>
+            </select>
+
+            <input type="text" id="storageLocation" name="storageLocation" hidden>
+
+            <button type="submit">Upload & Process</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleCustomPath() {
+            const select = document.getElementById("storageOption");
+            const input = document.getElementById("storageLocation");
+            
+            if (select.value === "custom") {
+                window.showDirectoryPicker()
+                    .then(handle => {
+                        input.value = handle.name; // Store the selected folder name
+                        input.hidden = false;
+                    })
+                    .catch(() => {
+                        select.value = "segments"; // Reset to default if the user cancels
+                    });
+            } else {
+                input.hidden = true;
+                input.value = "segments";
+            }
+        }
+    </script>
+    <!-- Footer Section -->
+    <footer>
+        <a href="/about.html">About Us</a> | 
+        <a href="/privacy-policy.html">Privacy Policy</a>
+    </footer>
+</body>
+</html>
